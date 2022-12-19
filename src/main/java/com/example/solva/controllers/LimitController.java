@@ -1,7 +1,6 @@
 package com.example.solva.controllers;
 
 
-import com.example.solva.service.LimitService;
 import com.example.solva.service.LimitServiceImpl;
 import com.example.solva.web.limit.InitLimitDTO;
 import com.example.solva.web.limit.LimitDTO;
@@ -9,7 +8,7 @@ import com.example.solva.web.limit.UpdateLimitDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 @RequestMapping("/limits")
@@ -18,17 +17,18 @@ public class LimitController {
 
     private final LimitServiceImpl limitService;
 
-    @GetMapping
-    public LimitDTO get(@RequestParam("account") String account,@RequestParam("category") String category){
-        return limitService.findOne(account,category);
+    @GetMapping(value = "/{account}")
+    public List<LimitDTO> getAccountLimits(@PathVariable String account) {
+        return limitService.getAll(account);
     }
+
     @PostMapping
     public LimitDTO create(@RequestBody InitLimitDTO initLimitDTO) {
         return limitService.create(initLimitDTO);
     }
 
     @PutMapping
-    public LimitDTO update(@RequestBody UpdateLimitDTO updateLimitDTO){
+    public LimitDTO update(@RequestBody UpdateLimitDTO updateLimitDTO) {
         return limitService.update(updateLimitDTO);
     }
 }

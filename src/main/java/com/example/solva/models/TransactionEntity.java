@@ -63,10 +63,6 @@ public class TransactionEntity {
         this.limitEntity = limitEntity;
     }
 
-//    @ManyToOne(targetEntity = LimitEntity.class)
-//    @JoinColumn(name = "userAccount", insertable = false, updatable = false)
-//    @Fetch(FetchMode.JOIN)
-//    private LimitEntity limitEntity;
 
     public TransactionDTO toDTO() {
         return new TransactionDTO(

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
 
-    List<TransactionEntity> findAllByAccountFromAndCategory(String accountFrom, String category);
+    List<TransactionEntity> findAllByAccountFrom(String accountFrom);
 
     @Query("SELECT new com.example.solva.web.TransLimDTO(t.transactionId,t.accountFrom,t.accountTo,t.currencyShortname,t.sum,t.category,t.dateTime,l.accountLimit,l.limitSettingDate,t.limitExceeded)" +
             " FROM TransactionEntity t INNER JOIN t.limitEntity l WHERE t.limitExceeded = true AND t.accountFrom = ?1")

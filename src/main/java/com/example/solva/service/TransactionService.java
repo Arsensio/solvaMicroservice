@@ -9,7 +9,7 @@ import java.util.List;
 public interface TransactionService {
     List<TransLimDTO> getAllExceededLimitTransactions(String account);
 
-    List<TransactionDTO> getByAccount(String account,String category);
+    List<TransactionDTO> getByAccount(String account);
 
     TransactionDTO create(SaveTransactionDTO saveTransactionDTO);
 }

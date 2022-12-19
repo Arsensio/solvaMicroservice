@@ -30,8 +30,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDTO> getByAccount(String account, String category) {
-        return transactionRepository.findAllByAccountFromAndCategory(account, category).stream().map(TransactionEntity::toDTO).collect(Collectors.toList());
+    public List<TransactionDTO> getByAccount(String account) {
+        return transactionRepository.findAllByAccountFrom(account).stream().map(TransactionEntity::toDTO).collect(Collectors.toList());
     }
 
     @Override

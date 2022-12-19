@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LimitService {
 
-    List<LimitDTO> getAll(Long userAccount);
+    List<LimitDTO> getAll(String userAccount);
 
     LimitDTO create(InitLimitDTO initLimitDTO);
 

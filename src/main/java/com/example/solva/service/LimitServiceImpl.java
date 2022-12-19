@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,8 +25,8 @@ public class LimitServiceImpl implements LimitService {
     private final CurrencyRepository currencyRepository;
 
     @Override
-    public List<LimitDTO> getAll(Long userAccount) {
-        return null;
+    public List<LimitDTO> getAll(String userAccount) {
+        return limitRepository.findAllCategoryLimitsByUserAccount(userAccount).stream().map(LimitEntity::toDTO).collect(Collectors.toList());
     }
 
     @Override

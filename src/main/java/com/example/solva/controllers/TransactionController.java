@@ -12,15 +12,15 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 @AllArgsConstructor
 public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @GetMapping
-    public List<TransactionDTO> getAllTransaction(@RequestParam("account") String account, @RequestParam("category") String category) {
-        return transactionService.getByAccount(account, category);
+    @GetMapping("/{account}")
+    public List<TransactionDTO> getAllTransaction(@PathVariable String account) {
+        return transactionService.getByAccount(account);
     }
 
     @PostMapping
@@ -28,8 +28,8 @@ public class TransactionController {
         return transactionService.create(saveTransactionDTO);
     }
 
-    @GetMapping(value = "/limitExceeded")
-    public List<TransLimDTO> getAllExceededLimitTransactions(@RequestParam("account") String account) {
+    @GetMapping(value = "/limitExceeded/{account}")
+    public List<TransLimDTO> getAllExceededLimitTransactions(@PathVariable String account) {
         return transactionService.getAllExceededLimitTransactions(account);
     }
 }
