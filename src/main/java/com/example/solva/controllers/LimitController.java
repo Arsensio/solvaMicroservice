@@ -2,7 +2,7 @@ package com.example.solva.controllers;
 
 
 import com.example.solva.service.LimitServiceImpl;
-import com.example.solva.web.limit.InitLimitDTO;
+import com.example.solva.web.limit.SaveLimitDTO;
 import com.example.solva.web.limit.LimitDTO;
 import com.example.solva.web.limit.UpdateLimitDTO;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class LimitController {
     }
 
     @PostMapping
-    public LimitDTO create(@RequestBody InitLimitDTO initLimitDTO) {
+    public LimitDTO create(@RequestBody SaveLimitDTO initLimitDTO) {
         return limitService.create(initLimitDTO);
     }
 

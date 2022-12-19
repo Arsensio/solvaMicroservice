@@ -4,9 +4,17 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 123
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/transactionDB
+    user: postgres
+    password: 123
+    locations: classpath:db/migration
+    validate-on-migrate: true
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

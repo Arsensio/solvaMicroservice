@@ -5,7 +5,7 @@ import com.example.solva.models.CurrencyEntity;
 import com.example.solva.models.LimitEntity;
 import com.example.solva.store.CurrencyRepository;
 import com.example.solva.store.LimitRepository;
-import com.example.solva.web.limit.InitLimitDTO;
+import com.example.solva.web.limit.SaveLimitDTO;
 import com.example.solva.web.limit.LimitDTO;
 import com.example.solva.web.limit.UpdateLimitDTO;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class LimitServiceImpl implements LimitService {
     }
 
     @Override
-    public LimitDTO create(InitLimitDTO initLimitDTO) {
+    public LimitDTO create(SaveLimitDTO initLimitDTO) {
         return limitRepository.save(new LimitEntity(
                 null,
                 initLimitDTO.getAccount(),
@@ -72,8 +72,4 @@ public class LimitServiceImpl implements LimitService {
         }
     }
 
-    @Override
-    public LimitDTO findOne(String account, String category) {
-        return limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(account, category).toDTO();
-    }
 }

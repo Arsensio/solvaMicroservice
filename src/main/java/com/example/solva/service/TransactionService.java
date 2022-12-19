@@ -1,6 +1,6 @@
 package com.example.solva.service;
 
-import com.example.solva.web.TransLimDTO;
+import com.example.solva.web.transaction.TransLimDTO;
 import com.example.solva.web.transaction.SaveTransactionDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 

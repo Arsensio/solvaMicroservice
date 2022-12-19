@@ -1,4 +1,4 @@
-package com.example.solva.web;
+package com.example.solva.web.transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

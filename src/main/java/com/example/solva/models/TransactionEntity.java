@@ -1,6 +1,6 @@
 package com.example.solva.models;
 
-import com.example.solva.web.TransLimDTO;
+import com.example.solva.web.transaction.TransLimDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -76,18 +73,4 @@ public class TransactionEntity {
         );
     }
 
-    public TransLimDTO toTransLimDTO(){
-        return new TransLimDTO(
-                this.transactionId,
-                this.accountFrom,
-                this.accountTo,
-                this.currencyShortname,
-                this.sum,
-                this.category,
-                this.dateTime,
-                this.limitEntity.getAccountLimit(),
-                this.limitEntity.getLimitSettingDate(),
-                this.limitExceeded
-        );
-    }
 }

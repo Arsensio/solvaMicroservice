@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InitLimitDTO {
+public class SaveLimitDTO {
     private String account;
     private String category;
 }

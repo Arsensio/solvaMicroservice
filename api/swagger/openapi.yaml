@@ -1,0 +1,257 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'Solva API'
+  description: 'An REST API of microservice of transaction. Allows you to Create and Read Transaction, be able to create, update, read user limit. '
+  contact:
+    name: Arsen
+    email: arsenulykbekov9@gmail.com
+
+servers:
+  - url: "http://localhost:8080"
+
+paths:
+  /transactions:
+    post:
+      tags:
+        - Transactions
+      description: create new transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saveTransactionDTO'
+      responses:
+        200:
+          description: Successfully added book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/transactionDTO"
+  
+  /transactions/{account}:
+    description: get All users transactions
+    get:
+      tags:
+        - Transactions
+      parameters:
+        - in: path
+          name: account
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully returned Transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/transactionDTO'
+                  
+  /transactions/limitExceeded/{account}:
+    description: get All users transactions where limit exceeded
+    get:
+      tags:
+        - Transactions
+      parameters:
+        - in: path
+          name: account
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully returned limit exceeded Transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/transLimDTO' 
+                  
+  /limits/{account}:
+    description: get All users transactions where limit exceeded
+    get:
+      tags:
+        - Limits
+      parameters:
+        - in: path
+          name: account
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully returned limit exceeded Transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/limitDTO' 
+  /limits:
+    post:
+      tags:
+        - Limits
+      description: create new limit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saveLimitDTO'
+      responses:
+        200:
+          description: Successfully created limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/transactionDTO"
+    put:
+      tags:
+        - Limits
+      description: update exist user's limit 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateLimitDTO'
+      responses:
+        200:
+          description: succefully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/transactionDTO"
+  
+components:
+  schemas:
+    transactionDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 0
+        accountFrom:
+          type: string
+          example: "1234567890"
+        accountTo:
+          type: string
+          example: "9876543210"
+        currencyShortname:
+          type: string
+          example: "KZT"
+        sum:
+          type: number
+          format: double
+          example: 570.0
+        category:
+          type: string
+          example: "product"
+        dateTime:
+          type: string
+          example: "2022-12-20 01:11:51 +06:00"
+          
+    saveTransactionDTO:
+      type: object
+      properties:
+        accountFrom:
+          type: string
+          example: "1234567890"
+        accountTo:
+          type: string
+          example: "9876543210"
+        currencyShortname:
+          type: string
+          example: "KZT"
+        sum:
+          type: number
+          format: double
+          example: 570.0
+        category:
+          type: string
+          example: "product"
+          
+    transLimDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 0
+        accountFrom:
+          type: string
+          example: "1234567890"
+        accountTo:
+          type: string
+          example: "9876543210"
+        currencyShortname:
+          type: string
+          example: "KZT"
+        sum:
+          type: number
+          format: double
+          example: 570.0
+        category:
+          type: string
+          example: "product"
+        dateTime:
+          type: string
+          example: "2022-12-20 01:11:51 +06:00"
+        accountLimit:
+          type: number
+          format: double
+          example: 1000.0
+        limitSettingDate:
+          type: string
+          example: "2022-12-20 00:11:51 +06:00"
+        limitExceeded:
+          type: boolean
+          example: true
+      
+    limitDTO:
+      type: object
+      properties:
+        account:
+          type: string
+          example: "1234567890"
+        category:
+          type: string
+          example: "product"
+        accountLimit:
+          type: number
+          format: double
+          example: 100.0
+        limitSettingDate:
+          type: string
+          example: "2022-12-20 01:11:51 +06:00"
+        limitBalance:
+          type: number
+          format: double
+          example: -70.0
+          
+    saveLimitDTO:
+      type: object
+      properties:
+        account:
+          type: string
+          example: "1234567890"
+        category:
+          type: string
+          example: "product"
+          
+    updateLimitDTO:
+      type: object
+      properties:
+        account:
+          type: string
+          example: "1234567890"
+        category:
+          type: string
+          example: "product"
+        accountLimit:
+          type: number
+          format: double
+          example: 200.0
+          
+          

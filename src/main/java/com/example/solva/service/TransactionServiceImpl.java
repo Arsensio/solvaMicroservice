@@ -4,7 +4,7 @@ import com.example.solva.models.LimitEntity;
 import com.example.solva.models.TransactionEntity;
 import com.example.solva.store.LimitRepository;
 import com.example.solva.store.TransactionRepository;
-import com.example.solva.web.TransLimDTO;
+import com.example.solva.web.transaction.TransLimDTO;
 import com.example.solva.web.transaction.SaveTransactionDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 import lombok.AllArgsConstructor;
@@ -36,7 +36,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDTO create(SaveTransactionDTO saveTransactionDTO) {
-        LimitEntity limitEntity = limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(saveTransactionDTO.getAccountFrom(), saveTransactionDTO.getCategory());
         return transactionRepository.saveAndFlush(new TransactionEntity(
                 saveTransactionDTO.getAccountFrom(),
                 saveTransactionDTO.getAccountTo(),

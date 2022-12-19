@@ -2,7 +2,7 @@ package com.example.solva.controllers;
 
 
 import com.example.solva.service.TransactionService;
-import com.example.solva.web.TransLimDTO;
+import com.example.solva.web.transaction.TransLimDTO;
 import com.example.solva.web.transaction.SaveTransactionDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 import lombok.AllArgsConstructor;
