@@ -17,9 +17,14 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "limits_table")
 public class LimitEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "limit_id", nullable = false)
+    private Long limitId;
 
-    @EmbeddedId
-    private LimitId id;
+    private String userAccount;
+
+    private String limitCategory;
 
     @Column(name = "limit_setting_date")
     private String limitSettingDate;
@@ -30,19 +35,22 @@ public class LimitEntity {
     @Column(name = "limit_balance")
     private Double limitBalance;
 
+    @OneToMany(targetEntity = TransactionEntity.class, mappedBy = "transactionId", orphanRemoval = false, fetch = FetchType.LAZY)
+    List<TransactionEntity>transactionEntityList;
 
-
-    public LimitEntity(LimitId limitId, String date, double accountLimit, double limitBalance) {
-        this.id = limitId;
-        this.limitSettingDate = date;
+    public LimitEntity(Long id, String userAccount, String limitCategory, String limitSettingDate, Double accountLimit, Double limitBalance) {
+        this.limitId = id;
+        this.userAccount = userAccount;
+        this.limitCategory = limitCategory;
+        this.limitSettingDate = limitSettingDate;
         this.accountLimit = accountLimit;
         this.limitBalance = limitBalance;
     }
 
     public LimitDTO toDTO() {
         return new LimitDTO(
-                id.getUserAccount(),
-                id.getLimitCategory(),
+                userAccount,
+                limitCategory,
                 accountLimit,
                 limitSettingDate,
                 limitBalance

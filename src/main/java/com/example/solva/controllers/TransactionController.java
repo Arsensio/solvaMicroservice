@@ -2,6 +2,7 @@ package com.example.solva.controllers;
 
 
 import com.example.solva.service.TransactionService;
+import com.example.solva.web.TransLimDTO;
 import com.example.solva.web.transaction.SaveTransactionDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public List<TransactionDTO> getAllTransaction(@RequestParam("account") Long account,@RequestParam("category") String category) {
-        return transactionService.getByAccount(account,category);
+    public List<TransactionDTO> getAllTransaction(@RequestParam("account") String account, @RequestParam("category") String category) {
+        return transactionService.getByAccount(account, category);
     }
 
     @PostMapping
@@ -28,7 +29,7 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/limitExceeded")
-    public List<TransactionDTO>getAllExceededLimitTransactions(@RequestParam("account") Long account){
+    public List<TransLimDTO> getAllExceededLimitTransactions(@RequestParam("account") String account) {
         return transactionService.getAllExceededLimitTransactions(account);
     }
 }

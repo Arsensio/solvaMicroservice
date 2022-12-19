@@ -1,5 +1,4 @@
-package com.example.solva.web.transaction;
-
+package com.example.solva.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class SaveTransactionDTO {
+@AllArgsConstructor
+public class TransLimDTO  {
+    private Long id;
+
     private String accountFrom;
 
     private String accountTo;
@@ -20,4 +21,13 @@ public class SaveTransactionDTO {
     private Double sum;
 
     private String category;
+
+    private String dateTime;
+
+    private Double accountLimit;
+
+    private String limitSettingDate;
+
+    private boolean limitExceeded;
+
 }

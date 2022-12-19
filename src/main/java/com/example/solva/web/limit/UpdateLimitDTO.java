@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateLimitDTO {
-    private Long account;
+    private String account;
     private String category;
     private Double accountLimit;
 }

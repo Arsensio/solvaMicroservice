@@ -19,7 +19,7 @@ public class LimitController {
     private final LimitServiceImpl limitService;
 
     @GetMapping
-    public LimitDTO get(@RequestParam("account") Long account,@RequestParam("category") String category){
+    public LimitDTO get(@RequestParam("account") String account,@RequestParam("category") String category){
         return limitService.findOne(account,category);
     }
     @PostMapping

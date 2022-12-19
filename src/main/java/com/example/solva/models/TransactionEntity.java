@@ -1,10 +1,15 @@
 package com.example.solva.models;
 
+import com.example.solva.web.TransLimDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,14 +23,14 @@ import java.util.List;
 public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "transaction_id", nullable = false)
+    private Long transactionId;
 
     @Column(name = "account_from")
-    private Long accountFrom;
+    private String accountFrom;
 
     @Column(name = "account_to")
-    private Long accountTo;
+    private String accountTo;
 
     @Column(name = "currency_shortname")
     private String currencyShortname;
@@ -42,7 +47,12 @@ public class TransactionEntity {
     @Column(name = "limit_exceeded")
     private boolean limitExceeded;
 
-    public TransactionEntity(Long accountFrom, Long accountTo, String currencyShortname, Double sum, String category, String dateTime, boolean limitExceeded) {
+    @ManyToOne
+    @JoinColumn(name = "limit_id", referencedColumnName = "limit_id")
+    @Fetch(FetchMode.JOIN)
+    LimitEntity limitEntity;
+
+    public TransactionEntity(String accountFrom, String accountTo, String currencyShortname, Double sum, String category, String dateTime, boolean limitExceeded, LimitEntity limitEntity) {
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.currencyShortname = currencyShortname;
@@ -50,17 +60,38 @@ public class TransactionEntity {
         this.category = category;
         this.dateTime = dateTime;
         this.limitExceeded = limitExceeded;
+        this.limitEntity = limitEntity;
     }
+
+//    @ManyToOne(targetEntity = LimitEntity.class)
+//    @JoinColumn(name = "userAccount", insertable = false, updatable = false)
+//    @Fetch(FetchMode.JOIN)
+//    private LimitEntity limitEntity;
 
     public TransactionDTO toDTO() {
         return new TransactionDTO(
-                this.id,
+                this.transactionId,
                 this.accountFrom,
                 this.accountTo,
                 this.currencyShortname,
                 this.sum,
                 this.category,
                 this.dateTime
+        );
+    }
+
+    public TransLimDTO toTransLimDTO(){
+        return new TransLimDTO(
+                this.transactionId,
+                this.accountFrom,
+                this.accountTo,
+                this.currencyShortname,
+                this.sum,
+                this.category,
+                this.dateTime,
+                this.limitEntity.getAccountLimit(),
+                this.limitEntity.getLimitSettingDate(),
+                this.limitExceeded
         );
     }
 }

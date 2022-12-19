@@ -13,9 +13,9 @@ import lombok.Setter;
 public class TransactionDTO {
     private Long id;
 
-    private Long accountFrom;
+    private String accountFrom;
 
-    private Long accountTo;
+    private String accountTo;
 
     private String currencyShortname;
 

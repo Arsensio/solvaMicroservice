@@ -14,6 +14,7 @@ public interface LimitService {
 
     LimitDTO update(UpdateLimitDTO updateLimitDTO);
 
-    void delete(Long id);
+    boolean updateLimitBalance(String account, String category, Double sum, String currencyShortname);
 
+    LimitDTO findOne(String account, String category);
 }

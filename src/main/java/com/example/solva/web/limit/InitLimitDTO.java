@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InitLimitDTO {
-    private Long account;
+    private String account;
     private String category;
 }

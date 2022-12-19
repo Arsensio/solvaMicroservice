@@ -1,7 +1,10 @@
 package com.example.solva.service;
 
+import com.example.solva.models.LimitEntity;
 import com.example.solva.models.TransactionEntity;
+import com.example.solva.store.LimitRepository;
 import com.example.solva.store.TransactionRepository;
+import com.example.solva.web.TransLimDTO;
 import com.example.solva.web.transaction.SaveTransactionDTO;
 import com.example.solva.web.transaction.TransactionDTO;
 import lombok.AllArgsConstructor;
@@ -18,34 +21,31 @@ import java.util.stream.Collectors;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
-
+    private final LimitRepository limitRepository;
     private final LimitServiceImpl limitService;
 
     @Override
-    public List<TransactionDTO> getAll() {
-        return null;
+    public List<TransLimDTO> getAllExceededLimitTransactions(String account) {
+        return transactionRepository.fetchTranLimDataInnerJoin(account);
     }
 
     @Override
-    public List<TransactionDTO> getAllExceededLimitTransactions(Long account) {
-        return null;
-    }
-
-    @Override
-    public List<TransactionDTO> getByAccount(Long account,String category) {
-        return transactionRepository.findAllByAccountFromAndCategory(account,category).stream().map(TransactionEntity::toDTO).collect(Collectors.toList());
+    public List<TransactionDTO> getByAccount(String account, String category) {
+        return transactionRepository.findAllByAccountFromAndCategory(account, category).stream().map(TransactionEntity::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public TransactionDTO create(SaveTransactionDTO saveTransactionDTO) {
-        return transactionRepository.save(new TransactionEntity(
+        LimitEntity limitEntity = limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(saveTransactionDTO.getAccountFrom(), saveTransactionDTO.getCategory());
+        return transactionRepository.saveAndFlush(new TransactionEntity(
                 saveTransactionDTO.getAccountFrom(),
                 saveTransactionDTO.getAccountTo(),
                 saveTransactionDTO.getCurrencyShortname(),
                 saveTransactionDTO.getSum(),
                 saveTransactionDTO.getCategory(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss XXX", Locale.getDefault()).format(new Date()),
-                limitService.updateLimitBalance(saveTransactionDTO.getAccountFrom(), saveTransactionDTO.getCategory(), saveTransactionDTO.getSum(),saveTransactionDTO.getCurrencyShortname())
+                limitService.updateLimitBalance(saveTransactionDTO.getAccountFrom(), saveTransactionDTO.getCategory(), saveTransactionDTO.getSum(), saveTransactionDTO.getCurrencyShortname()),
+                limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(saveTransactionDTO.getAccountFrom(), saveTransactionDTO.getCategory())
         )).toDTO();
     }
 }
