@@ -1,14 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/transactionDB
+    url: jdbc:postgresql://localhost:${configurations.dbPort}/${configurations.dbName}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: 123
-
+    username: ${configurations.dbUsername}
+    password: ${configurations.dbPassword}
   flyway:
-    url: jdbc:postgresql://localhost:5432/transactionDB
-    user: postgres
-    password: 123
+    url: jdbc:postgresql://localhost:${configurations.dbPort}/${configurations.dbName}
+    user: ${configurations.dbUsername}
+    password: ${configurations.dbPassword}
     locations: classpath:db/migration
     validate-on-migrate: true
 
@@ -21,9 +20,19 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+api:
+  key: 7044406eb5ff4f0791cf0975ca39a5d1
+  kzt: https://api.twelvedata.com/time_series?symbol=USD/KZT&interval=1day&outputsize=12&apikey=${api.key}
+  rub: https://api.twelvedata.com/time_series?symbol=USD/RUB&interval=1day&outputsize=12&apikey=${api.key}
+configurations:
+  dbPort: 5432 #enter here your port number
+  dbName: transactionDB #enter here your database name
+  dbUsername: postgres #enter here your Username of DB
+  dbPassword: 123 #enter here your Password of DB
 
 
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+

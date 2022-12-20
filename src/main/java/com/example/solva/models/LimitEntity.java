@@ -38,8 +38,7 @@ public class LimitEntity {
     @OneToMany(targetEntity = TransactionEntity.class, mappedBy = "transactionId", orphanRemoval = false, fetch = FetchType.LAZY)
     List<TransactionEntity>transactionEntityList;
 
-    public LimitEntity(Long id, String userAccount, String limitCategory, String limitSettingDate, Double accountLimit, Double limitBalance) {
-        this.limitId = id;
+    public LimitEntity(String userAccount, String limitCategory, String limitSettingDate, Double accountLimit, Double limitBalance) {
         this.userAccount = userAccount;
         this.limitCategory = limitCategory;
         this.limitSettingDate = limitSettingDate;

@@ -32,7 +32,6 @@ public class LimitServiceImpl implements LimitService {
     @Override
     public LimitDTO create(SaveLimitDTO initLimitDTO) {
         return limitRepository.save(new LimitEntity(
-                null,
                 initLimitDTO.getAccount(),
                 initLimitDTO.getCategory(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss XXX", Locale.getDefault()).format(new Date()),
@@ -46,7 +45,6 @@ public class LimitServiceImpl implements LimitService {
         LimitEntity limitEntity = limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(updateLimitDTO.getAccount(), updateLimitDTO.getCategory());
         if (limitEntity != null) {
             return limitRepository.saveAndFlush(new LimitEntity(
-                    null,
                     limitEntity.getUserAccount(),
                     limitEntity.getLimitCategory(),
                     new SimpleDateFormat("yyyy-MM-dd HH:mm:ss XXX", Locale.getDefault()).format(new Date()),
@@ -64,7 +62,6 @@ public class LimitServiceImpl implements LimitService {
         LimitEntity limitEntity = limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(account, category);
         if (limitEntity != null) {
             Double convertedSum = sum / currentCurrency.getClose();
-            System.out.println(convertedSum);
             limitEntity.setLimitBalance(limitEntity.getLimitBalance() - convertedSum);
             return limitRepository.saveAndFlush(limitEntity).getLimitBalance() < 0;
         } else {
