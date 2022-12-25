@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -30,15 +31,15 @@ public class LimitEntity {
     private String limitSettingDate;
 
     @Column(name = "account_limit")
-    private Double accountLimit;
+    private BigDecimal accountLimit;
 
     @Column(name = "limit_balance")
-    private Double limitBalance;
+    private BigDecimal limitBalance;
 
     @OneToMany(targetEntity = TransactionEntity.class, mappedBy = "transactionId", orphanRemoval = false, fetch = FetchType.LAZY)
     List<TransactionEntity>transactionEntityList;
 
-    public LimitEntity(String userAccount, String limitCategory, String limitSettingDate, Double accountLimit, Double limitBalance) {
+    public LimitEntity(String userAccount, String limitCategory, String limitSettingDate, BigDecimal accountLimit, BigDecimal limitBalance) {
         this.userAccount = userAccount;
         this.limitCategory = limitCategory;
         this.limitSettingDate = limitSettingDate;
@@ -50,9 +51,9 @@ public class LimitEntity {
         return new LimitDTO(
                 userAccount,
                 limitCategory,
-                accountLimit,
+                accountLimit.doubleValue(),
                 limitSettingDate,
-                limitBalance
+                limitBalance.doubleValue()
         );
 
     }

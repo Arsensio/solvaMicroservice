@@ -4,12 +4,12 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${configurations.dbUsername}
     password: ${configurations.dbPassword}
-  flyway:
-    url: jdbc:postgresql://localhost:${configurations.dbPort}/${configurations.dbName}
-    user: ${configurations.dbUsername}
-    password: ${configurations.dbPassword}
-    locations: classpath:db/migration
-    validate-on-migrate: true
+    flyway:
+      url: jdbc:postgresql://localhost:${configurations.dbPort}/${configurations.dbName}
+      user: ${configurations.dbUsername}
+      password: ${configurations.dbPassword}
+      locations: classpath:db/migration
+      validate-on-migrate: false
 
   jpa:
     hibernate:
@@ -20,19 +20,24 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
 api:
   key: 7044406eb5ff4f0791cf0975ca39a5d1
   kzt: https://api.twelvedata.com/time_series?symbol=USD/KZT&interval=1day&outputsize=12&apikey=${api.key}
   rub: https://api.twelvedata.com/time_series?symbol=USD/RUB&interval=1day&outputsize=12&apikey=${api.key}
 configurations:
-  dbPort:  #enter here your port number for example 5432
-  dbName:  #enter here your database name for example transactionDB
-  dbUsername:  #enter here your Username of DB for example postgres
-  dbPassword:  #enter here your Password of DB for example 123
+  dbPort:   #enter here your port number for example 5432
+  dbName:   #enter here your database name for example transactionDB
+  dbUsername:    #enter here your Username of DB for example postgres
+  dbPassword:   #enter here your Password of DB for example 123
+
+
 
 
 logging:
   level:
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 

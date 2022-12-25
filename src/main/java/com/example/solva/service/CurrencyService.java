@@ -3,10 +3,11 @@ package com.example.solva.service;
 import com.example.solva.models.CurrencyEntity;
 import com.example.solva.models.CurrencyResponseBean;
 import com.example.solva.store.CurrencyRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -36,16 +37,18 @@ public class CurrencyService {
         Optional<CurrencyEntity> KZT = currencyRepository.findById("KZT");
         Optional<CurrencyEntity> RUB = currencyRepository.findById("RUB");
         if (KZT.isEmpty() && RUB.isEmpty()) {
-            getCurrency();
+            setCurrencyFromApi();
         }
     }
 
     @Scheduled(cron = "0 0 0 * * *")
     public void setCurrency() {
-        getCurrency();
+        setCurrencyFromApi();
     }
 
-    private void getCurrency() {
+
+    @Transactional
+    void setCurrencyFromApi() {
         CurrencyResponseBean kzt = restTemplate.getForObject(kztApi, CurrencyResponseBean.class);
         CurrencyResponseBean rub = restTemplate.getForObject(rubApi, CurrencyResponseBean.class);
         currencyRepository.saveAndFlush(new CurrencyEntity(

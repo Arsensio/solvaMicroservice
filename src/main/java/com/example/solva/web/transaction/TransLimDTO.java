@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,13 +20,13 @@ public class TransLimDTO  {
 
     private String currencyShortname;
 
-    private Double sum;
+    private BigDecimal sum;
 
     private String category;
 
     private String dateTime;
 
-    private Double accountLimit;
+    private BigDecimal accountLimit;
 
     private String limitSettingDate;
 

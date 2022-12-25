@@ -11,6 +11,7 @@ import com.example.solva.web.limit.UpdateLimitDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +36,8 @@ public class LimitServiceImpl implements LimitService {
                 initLimitDTO.getAccount(),
                 initLimitDTO.getCategory(),
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss XXX", Locale.getDefault()).format(new Date()),
-                0.0,
-                0.0
+                BigDecimal.valueOf(0.0),
+                BigDecimal.valueOf(0.0)
         )).toDTO();
     }
 
@@ -48,8 +49,8 @@ public class LimitServiceImpl implements LimitService {
                     limitEntity.getUserAccount(),
                     limitEntity.getLimitCategory(),
                     new SimpleDateFormat("yyyy-MM-dd HH:mm:ss XXX", Locale.getDefault()).format(new Date()),
-                    updateLimitDTO.getAccountLimit(),
-                    updateLimitDTO.getAccountLimit() - limitEntity.getAccountLimit() + limitEntity.getLimitBalance()
+                    BigDecimal.valueOf(updateLimitDTO.getAccountLimit()),
+                    BigDecimal.valueOf(updateLimitDTO.getAccountLimit() - limitEntity.getAccountLimit().doubleValue() + limitEntity.getLimitBalance().doubleValue())
             )).toDTO();
         } else {
             throw new ResourceNotFoundException("There is no such Account");
@@ -61,12 +62,16 @@ public class LimitServiceImpl implements LimitService {
         CurrencyEntity currentCurrency = currencyRepository.getReferenceById(currencyShortname);
         LimitEntity limitEntity = limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(account, category);
         if (limitEntity != null) {
-            Double convertedSum = sum / currentCurrency.getClose();
-            limitEntity.setLimitBalance(limitEntity.getLimitBalance() - convertedSum);
-            return limitRepository.saveAndFlush(limitEntity).getLimitBalance() < 0;
+            limitEntity.setLimitBalance(BigDecimal.valueOf(limitEntity.getLimitBalance().doubleValue() - (sum / currentCurrency.getClose())));
+            return limitRepository.saveAndFlush(limitEntity).getLimitBalance().doubleValue() < 0;
         } else {
             throw new ResourceNotFoundException("There is no such Account");
         }
+    }
+
+
+    public void exForTest() {
+        throw new RuntimeException();
     }
 
 }
