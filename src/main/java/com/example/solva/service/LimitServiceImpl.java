@@ -10,6 +10,7 @@ import com.example.solva.web.limit.LimitDTO;
 import com.example.solva.web.limit.UpdateLimitDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,7 @@ public class LimitServiceImpl implements LimitService {
     }
 
     @Override
+    @Transactional
     public LimitDTO update(UpdateLimitDTO updateLimitDTO) {
         LimitEntity limitEntity = limitRepository.findFirstByUserAccountAndLimitCategoryOrderByLimitSettingDateDesc(updateLimitDTO.getAccount(), updateLimitDTO.getCategory());
         if (limitEntity != null) {
